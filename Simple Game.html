@@ -2,12 +2,33 @@
 <head>
 <title>Sandbox</title>
 <style>
-#block {
+#frame {
 	position: absolute;
+	height: 600px;
+	width: 600px;
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	top: 50%;
+	left: 50%;
+	margin-top: -300px;
+	margin-left: -300px;
+	padding: 5px;
+}
+#score {
+	position: relative;
+	height: 50px;
+	top: 50%;
+	left: 50%;
+	margin-top: 
+	background-color: black;
+}
+#sprite {
+	position: relative;
 	height: 30px;
 	width: 30px;
-	top: 5px;
-	left: 5px;
+	top: 0px;
+	left: 0px;
 	background-color: black;
 }
 </style>
@@ -15,30 +36,70 @@
 
 <script>
 $(document).ready(function(){
-	var top = 0;
-	var left = 0;
+	var spriteTop = 0;
+	var spriteLeft = 0;
+	var frameHeight = 600;
+	var frameWidth = 600;
+	var spriteHeight = 30;
+	var spriteWidth = 30;
+	var speed = 10;
+	var keys = {left:false, right:false, up:false, down:false};
+	
+	setInterval(tick, 50);
+	
+	function tick() {
+		if (keys['down'] && spriteTop + speed + spriteHeight <= frameHeight) {
+			spriteTop += speed;
+			document.getElementById('sprite').style.top = spriteTop + "px";
+		}
+		if (keys['up'] && (spriteTop - speed) >= 0) {
+			spriteTop -= speed;
+			document.getElementById('sprite').style.top = spriteTop + "px";
+		}
+		if (keys['left'] && (spriteLeft - speed) >= 0) {
+			spriteLeft -= speed;
+			document.getElementById('sprite').style.left = spriteLeft + "px";
+		}
+		if (keys['right'] && spriteLeft + speed + spriteWidth <= frameWidth) {
+			spriteLeft += speed;
+			document.getElementById('sprite').style.left = spriteLeft + "px";
+		}
+	}
+	
 	window.onkeydown = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
-		
 		if (key == 40) {
-			top += 10;
-		}else if (key == 38) {
-			top -= 10;
-		}else if (key == 37) {
-			left -= 10;
-		}else if (key == 39) {
-			left += 10;
+			keys['down'] = true;
+		} else if (key == 38) {
+			keys['up'] = true;
+		} else if (key == 37) {
+			keys['left'] = true;
+		} else if (key == 39) {
+			keys['right'] = true;
 		}
-		document.getElementById('block').style.top = top + "px";
-		document.getElementById('block').style.left = left + "px";
+	}
+	
+	window.onkeyup = function(e) {
+		var key = e.keyCode ? e.keyCode : e.which;
+		if (key == 40) {
+			keys['down'] = false;
+		} else if (key == 38) {
+			keys['up'] = false;
+		} else if (key == 37) {
+			keys['left'] = false;
+		} else if (key == 39) {
+			keys['right'] = false;
+		}
 	}
 })
 </script>
 </head>
 
 <body>
-<div id="block"></div>
-
+<div id="frame">
+	<div id="score"></div>
+	<div id="sprite"></div>
+</div>
 
 </body>
 
