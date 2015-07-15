@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Sandbox</title>
+<style>
+#block {
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	top: 5px;
+	left: 5px;
+	background-color: black;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+	var top = 0;
+	var left = 0;
+	window.onkeydown = function(e) {
+		var key = e.keyCode ? e.keyCode : e.which;
+		
+		if (key == 40) {
+			top += 10;
+		}else if (key == 38) {
+			top -= 10;
+		}else if (key == 37) {
+			left -= 10;
+		}else if (key == 39) {
+			left += 10;
+		}
+		document.getElementById('block').style.top = top + "px";
+		document.getElementById('block').style.left = left + "px";
+	}
+})
+</script>
+</head>
+
+<body>
+<div id="block"></div>
+
+
+</body>
+
+</html>
