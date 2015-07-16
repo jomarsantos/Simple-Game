@@ -13,7 +13,7 @@ $(document).ready(function(){
 	var maxTickSpeed = 50
 	var tickSpeedIncrement = 25;
 	var tickSpeed = minTickSpeed;
-	var keys = {left:false, right:false, up:false, down:false, a:false, s:false};
+	var keys = {left:false, right:false, up:false, down:false};
 
 	setTargetCoordinates();
 	function setTargetCoordinates() {
@@ -47,17 +47,6 @@ $(document).ready(function(){
 		}
 		window.setTimeout(tick, tickSpeed);
 	}
-	window.setInterval(speedTracker,100);
-	function speedTracker() {
-		if (keys['a'] && tickSpeed < minTickSpeed) {
-			tickSpeed += tickSpeedIncrement;
-			setSpeedTracker();
-		}
-		if (keys['s'] && tickSpeed > maxTickSpeed) {
-			tickSpeed -= tickSpeedIncrement;
-			setSpeedTracker()
-		}
-	}
 
 	function setSpeedTracker() {
 		var enabled = 10 - ((tickSpeed - maxTickSpeed) / tickSpeedIncrement);
@@ -81,10 +70,12 @@ $(document).ready(function(){
 			keys['left'] = true;
 		} else if (key == 39) {
 			keys['right'] = true;
-		} else if (key == 65) {
-			keys['a'] = true;
-		}else if (key == 83) {
-			keys['s'] = true;
+		} else if (key == 65 && tickSpeed < minTickSpeed) {
+			tickSpeed += tickSpeedIncrement;
+			setSpeedTracker()
+		} else if (key == 83 && tickSpeed > maxTickSpeed) {
+			tickSpeed -= tickSpeedIncrement;
+			setSpeedTracker()
 		}
 	}
 
@@ -98,10 +89,6 @@ $(document).ready(function(){
 			keys['left'] = false;
 		} else if (key == 39) {
 			keys['right'] = false;
-		} else if (key == 65) {
-			keys['a'] = false;
-		} else if (key == 83) {
-			keys['s'] = false;
 		}
 	}
 })
