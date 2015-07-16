@@ -11,13 +11,13 @@ $(document).ready(function(){
 		var spriteHeight = 30;
 		var spriteWidth = 30;
 		var spriteSpeed = 30;
-		var minTickSpeed = 275;
-		var maxTickSpeed = 50
-		var tickSpeedIncrement = 25;
+		var minTickSpeed = 230;
+		var maxTickSpeed = 50;
+		var tickSpeedIncrement = 20;
 		var tickSpeed = minTickSpeed;
 		var keys = {left:false, right:false, up:false, down:false};
 
-		// $('#game').toggleClass('active');
+		$('#game').toggleClass('active');
 
 		setTargetCoordinates();
 		function setTargetCoordinates() {
@@ -25,10 +25,27 @@ $(document).ready(function(){
 			targetLeft = Math.floor(Math.random() * 20 + 1) * 30 - 30;
 			document.getElementById('target').style.top = targetTop;
 			document.getElementById('target').style.left = targetLeft;
+			// document.getElementById('target').style.backgroundColor = getRandomColor();
 		}
+
+		// function getRandomColor() {
+	  //   var letters = '0123456789ABCDEF'.split('');
+	  //   var color = '#';
+	  //   for (var i = 0; i < 6; i++ ) {
+	  //     color += letters[Math.floor(Math.random() * 16)];
+	  //   }
+	  //   return color;
+		// }
 
 		tick();
 		function tick() {
+			if ((keys['up'] && (spriteTop - spriteSpeed < 0)) ||
+					(keys['down'] && (spriteTop + spriteSpeed + spriteHeight > frameHeight))  ||
+					(keys['left'] && (spriteLeft - spriteSpeed < 0)) ||
+					(keys['right'] && (spriteLeft + spriteSpeed + spriteWidth > frameWidth))) {
+					$('#game').toggleClass('active');
+					return;
+			}
 			if (keys['down'] && spriteTop + spriteSpeed + spriteHeight <= frameHeight) {
 				spriteTop += spriteSpeed;
 				document.getElementById('sprite').style.top = spriteTop + "px";

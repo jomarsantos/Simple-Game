@@ -48,10 +48,10 @@ Info
 #score {
 	position: absolute;
 	height: 50px;
-	width: 100px;
+	width: 500px;
 	top: 200px;
 	left: 50%;
-	margin-left: -50px;
+	margin-left: -250px;
 	/*background-color: black;*/
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
@@ -113,15 +113,15 @@ Sprites
 	width: 30px;
 	top: 0px;
 	left: 0px;
-	background-color: orange;
+	background-color: green;
 }
 
 #sprite {
 	position: absolute;
 	height: 30px;
 	width: 30px;
-	top: 0px;
-	left: 0px;
+	top: 30px;
+	left: 30px;
 	background-color: black;
 }
 
