@@ -1,0 +1,115 @@
+/*
+--------------------------------------------------------
+Basic
+--------------------------------------------------------
+*/
+
+html {
+	background-color: black;
+}
+
+#frame {
+	position: absolute;
+	height: 600px;
+	width: 600px;
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	top: 50%;
+	left: 50%;
+	margin-top: -300px;
+	margin-left: -300px;
+	background-color: #fed121;
+}
+
+/*
+--------------------------------------------------------
+Info
+--------------------------------------------------------
+*/
+
+#score {
+	position: absolute;
+	height: 50px;
+	width: 100px;
+	top: 200px;
+	left: 50%;
+	margin-left: -50px;
+	/*background-color: black;*/
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	font-size: 100px;
+	color: #E5BC1E;
+}
+
+#speed {
+	position: absolute;
+	height: 50px;
+	width: 150px;
+	top: 330px;
+	left: 50%;
+	margin-left: -75px;
+	/*background-color: black;*/
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+	color: #E5BC1E;
+	letter-spacing: 2px;
+}
+
+#speedInfo {
+	position: absolute;
+	height: 50px;
+	width: 300px;
+	top: 350px;
+	left: 50%;
+	margin-left: -150px;
+	/*background-color: black;*/
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+	color: #E5BC1E;
+}
+
+#enabledSpeed {
+	display: inline-block;
+	margin: 0px -5px 0px 0px;
+	padding: 0px;
+	color: #B29217;
+}
+
+#disabledSpeed {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+}
+
+/*
+--------------------------------------------------------
+Sprites
+--------------------------------------------------------
+*/
+
+#target {
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	top: 0px;
+	left: 0px;
+	background-color: orange;
+}
+
+#sprite {
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	top: 0px;
+	left: 0px;
+	background-color: black;
+}
+
+/*
+--------------------------------------------------------
+Obstacles
+--------------------------------------------------------
+*/

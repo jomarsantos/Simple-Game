@@ -1,219 +1,23 @@
 <html>
-<head>
-<title>Simple-Game</title>
-<style>
-html {
-	background-color: black;
-}
-#frame {
-	position: absolute;
-	height: 600px;
-	width: 600px;
-	border-color: black;
-	border-style: solid;
-	border-width: 1px;
-	top: 50%;
-	left: 50%;
-	margin-top: -300px;
-	margin-left: -300px;
-	background-color: #fed121;
-}
-#score {
-	position: absolute;
-	height: 50px;
-	width: 100px;
-	top: 200px;
-	left: 50%;
-	margin-left: -50px;
-	/*background-color: black;*/
-	text-align: center;
-	font-family: 'Oswald', sans-serif;
-	font-size: 100px;
-	color: #E5BC1E;
-}
-#speed {
-	position: absolute;
-	height: 50px;
-	width: 150px;
-	top: 330px;
-	left: 50%;
-	margin-left: -75px;
-	/*background-color: black;*/
-	text-align: center;
-	font-family: 'Oswald', sans-serif;
-	font-size: 20px;
-	color: #E5BC1E;
-	letter-spacing: 2px;
-}
-#speedInfo {
-	position: absolute;
-	height: 50px;
-	width: 300px;
-	top: 350px;
-	left: 50%;
-	margin-left: -150px;
-	/*background-color: black;*/
-	text-align: center;
-	font-family: 'Oswald', sans-serif;
-	font-size: 20px;
-	color: #E5BC1E;
-}
-#enabledSpeed {
-	display: inline-block;
-	margin: 0px -5px 0px 0px;
-	padding: 0px;
-	color: #B29217;
-}
-#disabledSpeed {
-	display: inline-block;
-	margin: 0px;
-	padding: 0px;
-}
-#target {
-	position: absolute;
-	height: 30px;
-	width: 30px;
-	top: 0px;
-	left: 0px;
-	background-color: orange;
-}
-#sprite {
-	position: absolute;
-	height: 30px;
-	width: 30px;
-	top: 0px;
-	left: 0px;
-	background-color: black;
-}
-</style>
-<link href='http://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-<script>
-$(document).ready(function(){
-	var score = 0;
-	var spriteTop = 0;
-	var spriteLeft = 0;
-	var targetTop;
-	var targetLeft;
-	var frameHeight = 600;
-	var frameWidth = 600;
-	var spriteHeight = 30;
-	var spriteWidth = 30;
-	var spriteSpeed = 30;
-	var minTickSpeed = 275;
-	var maxTickSpeed = 50
-	var tickSpeedIncrement = 25;
-	var tickSpeed = minTickSpeed;
-	var keys = {left:false, right:false, up:false, down:false, a:false, s:false};
-
-	setTargetCoordinates();
-	function setTargetCoordinates() {
-		targetTop = Math.floor(Math.random() * 20 + 1) * 30 - 30;
-		targetLeft = Math.floor(Math.random() * 20 + 1) * 30 - 30;
-		document.getElementById('target').style.top = targetTop;
-		document.getElementById('target').style.left = targetLeft;
-	}
-
-	tick();
-	function tick() {
-		if (keys['down'] && spriteTop + spriteSpeed + spriteHeight <= frameHeight) {
-			spriteTop += spriteSpeed;
-			document.getElementById('sprite').style.top = spriteTop + "px";
-		}
-		if (keys['up'] && (spriteTop - spriteSpeed) >= 0) {
-			spriteTop -= spriteSpeed;
-			document.getElementById('sprite').style.top = spriteTop + "px";
-		}
-		if (keys['left'] && (spriteLeft - spriteSpeed) >= 0) {
-			spriteLeft -= spriteSpeed;
-			document.getElementById('sprite').style.left = spriteLeft + "px";
-		}
-		if (keys['right'] && spriteLeft + spriteSpeed + spriteWidth <= frameWidth) {
-			spriteLeft += spriteSpeed;
-			document.getElementById('sprite').style.left = spriteLeft + "px";
-		}
-		if (spriteTop == targetTop & spriteLeft == targetLeft) {
-			addPoint();
-			setTargetCoordinates();
-		}
-		window.setTimeout(tick, tickSpeed);
-	}
-	window.setInterval(speedTracker,100);
-	function speedTracker() {
-		if (keys['a'] && tickSpeed < minTickSpeed) {
-			tickSpeed += tickSpeedIncrement;
-			setSpeedTracker();
-		}
-		if (keys['s'] && tickSpeed > maxTickSpeed) {
-			tickSpeed -= tickSpeedIncrement;
-			setSpeedTracker()
-		}
-	}
-
-	function setSpeedTracker() {
-		var enabled = 10 - ((tickSpeed - maxTickSpeed) / tickSpeedIncrement);
-		var disabled = 10 - enabled;
-		document.getElementById('enabledSpeed').innerHTML = Array(enabled+1).join("&#8226;");
-		document.getElementById('disabledSpeed').innerHTML = Array(disabled+1).join("&#8226;");
-	}
-
-	function addPoint() {
-		score++;
-		document.getElementById('score').innerHTML = score;
-	}
-
-	window.onkeydown = function(e) {
-		var key = e.keyCode ? e.keyCode : e.which;
-		if (key == 40) {
-			keys['down'] = true;
-		} else if (key == 38) {
-			keys['up'] = true;
-		} else if (key == 37) {
-			keys['left'] = true;
-		} else if (key == 39) {
-			keys['right'] = true;
-		} else if (key == 65) {
-			keys['a'] = true;
-		}else if (key == 83) {
-			keys['s'] = true;
-		}
-	}
-
-	window.onkeyup = function(e) {
-		var key = e.keyCode ? e.keyCode : e.which;
-		if (key == 40) {
-			keys['down'] = false;
-		} else if (key == 38) {
-			keys['up'] = false;
-		} else if (key == 37) {
-			keys['left'] = false;
-		} else if (key == 39) {
-			keys['right'] = false;
-		} else if (key == 65) {
-			keys['a'] = false;
-		} else if (key == 83) {
-			keys['s'] = false;
-		}
-	}
-})
-</script>
-</head>
-
-<body>
-<div id="frame">
-	<div id="info">
-		<div id="score">0</div>
-		<div id="speed">
-			<div id="enabledSpeed">&#8226;</div>
-			<div id="disabledSpeed">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
+	<head>
+		<title>Simple Game</title>
+		<link href='style.css' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="frame">
+			<div id="info">
+				<div id="score">0</div>
+				<div id="speed">
+					<div id="enabledSpeed">&#8226;</div>
+					<div id="disabledSpeed">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
+				</div>
+				<div id="speedInfo"><p>A: Slow Down<br>S: Speed Up</p></div>
+			</div>
+			<div id="target"></div>
+			<div id="sprite"></div>
 		</div>
-		<div id="speedInfo"><p>A: Slow Down<br>S: Speed Up</p></div>
-	</div>
-	<div id="target"></div>
-	<div id="sprite"></div>
-</div>
-
-</body>
-
+		<script src="game.js"></script>
+	</body>
 </html>
