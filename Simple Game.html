@@ -2,6 +2,9 @@
 <head>
 <title>Sandbox</title>
 <style>
+html {
+	background-color: black;
+}
 #frame {
 	position: absolute;
 	height: 600px;
@@ -13,18 +16,31 @@
 	left: 50%;
 	margin-top: -300px;
 	margin-left: -300px;
-	padding: 5px;
+	background-color: #fed121;
 }
 #score {
-	position: relative;
+	position: absolute;
 	height: 50px;
-	top: 50%;
+	width: 100px;
+	top: 45%;
 	left: 50%;
-	margin-top: 
-	background-color: black;
+	margin-top: -25px;
+	margin-left: -50px;
+	/*background-color: black;*/
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	font-size: 60px;
+}
+#target {
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	top: 0px;
+	left: 0px;
+	background-color: orange;
 }
 #sprite {
-	position: relative;
+	position: absolute;
 	height: 30px;
 	width: 30px;
 	top: 0px;
@@ -32,21 +48,31 @@
 	background-color: black;
 }
 </style>
+<link href='http://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <script>
 $(document).ready(function(){
+	var score = 0;
 	var spriteTop = 0;
 	var spriteLeft = 0;
+	var targetTop;
+	var targetLeft;
 	var frameHeight = 600;
 	var frameWidth = 600;
 	var spriteHeight = 30;
 	var spriteWidth = 30;
-	var speed = 10;
+	var speed = 30;
 	var keys = {left:false, right:false, up:false, down:false};
-	
-	setInterval(tick, 50);
-	
+
+	setTargetCoordinates();
+	function setTargetCoordinates() {
+		targetTop = Math.floor(Math.random() * 20 + 1) * 30 - 30;
+		targetLeft = Math.floor(Math.random() * 20 + 1) * 30 - 30;
+		document.getElementById('target').style.top = targetTop;
+		document.getElementById('target').style.left = targetLeft;
+	}
+	setInterval(tick, 100);
 	function tick() {
 		if (keys['down'] && spriteTop + speed + spriteHeight <= frameHeight) {
 			spriteTop += speed;
@@ -64,8 +90,17 @@ $(document).ready(function(){
 			spriteLeft += speed;
 			document.getElementById('sprite').style.left = spriteLeft + "px";
 		}
+		if (spriteTop == targetTop & spriteLeft == targetLeft) {
+			addPoint();
+			setTargetCoordinates();
+		}
 	}
-	
+
+	function addPoint() {
+		score++;
+		document.getElementById('score').innerHTML = score;
+	}
+
 	window.onkeydown = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
 		if (key == 40) {
@@ -78,7 +113,7 @@ $(document).ready(function(){
 			keys['right'] = true;
 		}
 	}
-	
+
 	window.onkeyup = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
 		if (key == 40) {
@@ -97,7 +132,8 @@ $(document).ready(function(){
 
 <body>
 <div id="frame">
-	<div id="score"></div>
+	<div id="score">0</div>
+	<div id="target"></div>
 	<div id="sprite"></div>
 </div>
 
