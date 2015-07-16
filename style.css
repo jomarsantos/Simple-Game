@@ -52,7 +52,6 @@ Info
 	top: 200px;
 	left: 50%;
 	margin-left: -250px;
-	/*background-color: black;*/
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 	font-size: 100px;
@@ -99,6 +98,50 @@ Info
 	display: inline-block;
 	margin: 0px;
 	padding: 0px;
+}
+
+#start {
+	position: absolute;
+	font-family: 'Oswald', sans-serif;
+	font-size: 24px;
+	color: #FED121;
+	height: 35px;
+	width: 200px;
+	top: 50%;
+	left: 50%;
+	margin-top: -17.5px;
+	margin-left: -100px;
+	padding: 5px;
+	text-align: center;
+	background-color: #E5BC1E;
+	border-radius: 10px;
+}
+
+#gameOver {
+	position: absolute;
+	font-family: 'Oswald', sans-serif;
+	font-size: 60px;
+	color: #E5BC1E;
+	width: 500px;
+	top: 45%;
+	left: 50%;
+	margin-top: -40px;
+	margin-left: -250px;
+	text-align: center;
+}
+
+#tryAgain {
+	display: block;
+	font-family: 'Oswald', sans-serif;
+	font-size: 24px;
+	color: #FED121;
+	height: 35px;
+	padding: 5px;
+	width: 200px;
+	text-align: center;
+	margin: 0px auto 0px auto;
+	background-color: #E5BC1E;
+	border-radius: 10px;
 }
 
 /*
