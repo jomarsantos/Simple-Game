@@ -20,6 +20,10 @@ function startGame() {
 	var tickSpeed = minTickSpeed;
 	var keys = {left:false, right:false, up:false, down:false};
 
+	document.getElementById('sprite').style.top = spriteTop + "px";
+	document.getElementById('sprite').style.left = spriteLeft + "px";
+	document.getElementById('score').innerHTML = score;
+	setSpeedTracker()
 	$('#game').toggleClass('active');
 
 	setTargetCoordinates();
