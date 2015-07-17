@@ -41,6 +41,11 @@ html {
 	text-align: center;
 	background-color: #E5BC1E;
 	border-radius: 10px;
+	cursor: pointer;
+}
+
+#start:hover {
+	background-color: #CBA71A;
 }
 
 #gameOver {
@@ -68,6 +73,11 @@ html {
 	margin: 0px auto 0px auto;
 	background-color: #E5BC1E;
 	border-radius: 10px;
+	cursor: pointer;
+}
+
+#tryAgain:hover {
+	background-color: #CBA71A;
 }
 
 /*
