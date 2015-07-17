@@ -1,4 +1,14 @@
+Game:
+- Timer for each level
+- Different objective each round
+
+
 Level Ideas:
+
+Level 1: Warm Up
+- Collect the 5 randomly placed targets
+
+
 Can't stop
 Black out
 Lava
@@ -7,3 +17,14 @@ Moving
 Shrinking Size
 Shape Change
 Maze
+Shifting Maze
+Teleportation
+Moving Obstacles (Will Kill You)
+Transport Items
+Collect Time / Need to balance between getting item and getting time
+Changing positions and colors (Have to get a certain color)
+Mouse interactions
+
+Item Boosters
+- Make you smaller, so you can use short cuts
+- Junk food make you big

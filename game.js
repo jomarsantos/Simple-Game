@@ -124,5 +124,13 @@ function startGame() {
 
 function tryAgain() {
 	$('#gameOver').toggleClass('active');
-	startGame();
+	$('#start').toggleClass('active');
 }
+
+// window.onkeydown = function(e) {
+// 	var key = e.keyCode ? e.keyCode : e.which;
+// 	if (key == 32) {
+// 		$('#gameOver').toggleClass('active',true);
+// 		init();
+// 	}
+// }

@@ -5,21 +5,27 @@ General
 */
 
 html {
-	background-color: black;
+	background-color: #30323F;
+	max-width: 100%;
+	overflow-x: hidden;
 }
 
-#frame {
+#mainPanel {
 	position: absolute;
-	height: 600px;
-	width: 600px;
-	border-color: black;
-	border-style: solid;
-	border-width: 1px;
 	top: 50%;
 	left: 50%;
 	margin-top: -300px;
-	margin-left: -300px;
-	background-color: #fed121;
+	margin-left: -452.5px;
+	width: 905px;
+	height: 600px;
+}
+
+#gamePanel {
+	position: relative;
+	display: inline-block;
+	height: 600px;
+	width: 600px;
+	background-color: #4D8A4D;
 }
 
 .active {
@@ -30,7 +36,7 @@ html {
 	position: absolute;
 	font-family: 'Oswald', sans-serif;
 	font-size: 24px;
-	color: #FED121;
+	color: #A6C4A6;
 	height: 35px;
 	width: 200px;
 	top: 50%;
@@ -39,45 +45,44 @@ html {
 	margin-left: -100px;
 	padding: 5px;
 	text-align: center;
-	background-color: #E5BC1E;
+	background-color: #71A171;
 	border-radius: 10px;
 	cursor: pointer;
 }
 
 #start:hover {
-	background-color: #CBA71A;
+	background-color: #5F965F;
 }
 
 #gameOver {
 	position: absolute;
 	font-family: 'Oswald', sans-serif;
 	font-size: 60px;
-	color: #E5BC1E;
-	width: 500px;
-	top: 45%;
+	color: #30323F;
+	width: 400px;
+	top: 35%;
 	left: 50%;
-	margin-top: -40px;
-	margin-left: -250px;
+	margin-left: -200px;
+	padding-top: 10px;
+	padding-bottom: 30px;
 	text-align: center;
+	background-color: #FFFFFF;
+	border-radius: 10px;
 }
 
 #tryAgain {
 	display: block;
 	font-family: 'Oswald', sans-serif;
 	font-size: 24px;
-	color: #FED121;
+	color: #FFFFFF;
 	height: 35px;
 	padding: 5px;
 	width: 200px;
 	text-align: center;
 	margin: 0px auto 0px auto;
-	background-color: #E5BC1E;
+	background-color: #30323F;
 	border-radius: 10px;
 	cursor: pointer;
-}
-
-#tryAgain:hover {
-	background-color: #CBA71A;
 }
 
 /*
@@ -99,6 +104,14 @@ Info
 --------------------------------------------------------
 */
 
+#sidePanel {
+	background-color: #3C3F4F;
+	width: 300px;
+	height: 600px;
+	display: inline-block;
+	position: relative;
+}
+
 #score {
 	position: absolute;
 	height: 50px;
@@ -109,7 +122,7 @@ Info
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 	font-size: 100px;
-	color: #E5BC1E;
+	color: #505261;
 }
 
 #speed {
@@ -123,7 +136,7 @@ Info
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 	font-size: 20px;
-	color: #E5BC1E;
+	color: #505261;
 	letter-spacing: 2px;
 }
 
@@ -134,29 +147,30 @@ Info
 	top: 350px;
 	left: 50%;
 	margin-left: -150px;
-	/*background-color: black;*/
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 	font-size: 20px;
-	color: #E5BC1E;
+	color: #505261;
 }
 
 #enabledSpeed {
 	display: inline-block;
 	margin: 0px -5px 0px 0px;
 	padding: 0px;
-	color: #B29217;
+	color: #636572;
 }
 
 #disabledSpeed {
 	display: inline-block;
 	margin: 0px;
 	padding: 0px;
+	color: #505261;
 }
 
 /*
 --------------------------------------------------------
 Sprites
+- Emoji provided free by http://emojione.com
 --------------------------------------------------------
 */
 
@@ -166,7 +180,6 @@ Sprites
 	width: 30px;
 	top: 0px;
 	left: 0px;
-	background-color: green;
 }
 
 #sprite {
@@ -175,7 +188,6 @@ Sprites
 	width: 30px;
 	top: 30px;
 	left: 30px;
-	background-color: black;
 }
 
 /*
