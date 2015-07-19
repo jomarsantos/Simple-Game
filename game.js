@@ -1,136 +1,192 @@
-function init() {
-	$('#start').toggleClass('active');
+// Main Menu Screen
+function mainScreen() {
+	$('#gameOverScreen').toggleClass('active',true);
+	$('#mainScreen').toggleClass('active',false);
+}
+
+// Game Over Menu
+function gameOver() {
+	$('#game').toggleClass('active',true);
+	$('#gameOverScreen').toggleClass('active',false);
+}
+
+// Performed When Clicking "Try Again" From Game Over Menu
+function tryAgain() {
+	$('#gameOverScreen').toggleClass('active',true);
 	startGame();
 }
 
+// Start Game
 function startGame() {
-	var score = 0;
-	var spriteTop = 30;
-	var spriteLeft = 30;
-	var targetTop;
-	var targetLeft;
-	var frameHeight = 600;
-	var frameWidth = 600;
+	// Triggers
+	var isGameOver = false;
+	var isCompleted = false;
+
+	// Constants
+	var spriteColumn = 1;
+	var spriteRow = 1;
 	var spriteHeight = 30;
 	var spriteWidth = 30;
+	var playerX = 1;
+	var playerY = 1;
 	var spriteSpeed = 30;
-	var minTickSpeed = 140;
-	var maxTickSpeed = 50;
-	var tickSpeedIncrement = 10;
-	var tickSpeed = minTickSpeed;
-	var keys = {left:false, right:false, up:false, down:false};
+	var tileDimension = 30;
+	var mapDimension = 20;
 
-	document.getElementById('sprite').style.top = spriteTop + "px";
-	document.getElementById('sprite').style.left = spriteLeft + "px";
-	document.getElementById('score').innerHTML = score;
-	setSpeedTracker()
-	$('#game').toggleClass('active');
+	// Current Map
+	var currentMap;
 
-	setTargetCoordinates();
-	function setTargetCoordinates() {
-		targetTop = Math.floor(Math.random() * 20 + 1) * 30 - 30;
-		targetLeft = Math.floor(Math.random() * 20 + 1) * 30 - 30;
-		document.getElementById('target').style.top = targetTop;
-		document.getElementById('target').style.left = targetLeft;
-		// document.getElementById('target').style.backgroundColor = getRandomColor();
+	// Set Up Canvas
+	$('#canvas').toggleClass('active',false);
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+	canvas.width = tileDimension * mapDimension;
+	canvas.height = tileDimension * mapDimension;
+
+	// Render Map of Level
+	function renderMap(map){
+		currentMap = map;
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "#363947";
+		for (i = 0; i < mapDimension; i++) {
+			for (j = 0; j < mapDimension; j++) {
+				if (map[i][j] == 'W'){
+					ctx.fillStyle = "#363947";
+					ctx.fillRect(j * tileDimension,i * tileDimension, tileDimension, tileDimension);
+				}
+				if (map[i][j] == 'X'){
+					ctx.fillStyle = "#4D8A4D";
+					ctx.fillRect(j * tileDimension,i * tileDimension, tileDimension, tileDimension);
+				}
+			}
+		}
 	}
 
-	// function getRandomColor() {
-	//   var letters = '0123456789ABCDEF'.split('');
-	//   var color = '#';
-	//   for (var i = 0; i < 6; i++ ) {
-	//     color += letters[Math.floor(Math.random() * 16)];
-	//   }
-	//   return color;
-	// }
-
-	tick();
-	function tick() {
-		if ((keys['up'] && (spriteTop - spriteSpeed < 0)) ||
-		(keys['down'] && (spriteTop + spriteSpeed + spriteHeight > frameHeight))  ||
-		(keys['left'] && (spriteLeft - spriteSpeed < 0)) ||
-		(keys['right'] && (spriteLeft + spriteSpeed + spriteWidth > frameWidth))) {
-			$('#game').toggleClass('active');
-			$('#gameOver').toggleClass('active');
-			return;
-		}
-		if (keys['down'] && spriteTop + spriteSpeed + spriteHeight <= frameHeight) {
-			spriteTop += spriteSpeed;
-			document.getElementById('sprite').style.top = spriteTop + "px";
-		}
-		if (keys['up'] && (spriteTop - spriteSpeed) >= 0) {
-			spriteTop -= spriteSpeed;
-			document.getElementById('sprite').style.top = spriteTop + "px";
-		}
-		if (keys['left'] && (spriteLeft - spriteSpeed) >= 0) {
-			spriteLeft -= spriteSpeed;
-			document.getElementById('sprite').style.left = spriteLeft + "px";
-		}
-		if (keys['right'] && spriteLeft + spriteSpeed + spriteWidth <= frameWidth) {
-			spriteLeft += spriteSpeed;
-			document.getElementById('sprite').style.left = spriteLeft + "px";
-		}
-		if (spriteTop == targetTop & spriteLeft == targetLeft) {
-			addPoint();
-			setTargetCoordinates();
-		}
-		window.setTimeout(tick, tickSpeed);
+	// Set Player's Position
+	function setPlayer(x, y) {
+		playerX = x;
+		playerY = y;
+		var player = document.getElementById("player");
+		player.style.top = y * tileDimension;
+		player.style.left = x * tileDimension;
+		$('#player').toggleClass('active', false);
 	}
 
-	function setSpeedTracker() {
-		var enabled = 10 - ((tickSpeed - maxTickSpeed) / tickSpeedIncrement);
-		var disabled = 10 - enabled;
-		document.getElementById('enabledSpeed').innerHTML = Array(enabled+1).join("&#8226;");
-		document.getElementById('disabledSpeed').innerHTML = Array(disabled+1).join("&#8226;");
+	// Returns the result of a move (checks the value of a position)
+	function moveResult(x,y) {
+		if (currentMap[x][y] == 'W') {
+			return 'dead';
+		} else if (currentMap[x][y] == 'X') {
+			return 'empty';
+		}
 	}
 
-	function addPoint() {
-		score++;
-		document.getElementById('score').innerHTML = score;
-	}
-
+	// Key Handling
 	window.onkeydown = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
+		// Key Down
 		if (key == 40) {
-			keys['down'] = true;
+			if (moveResult(playerX, playerY + 1) == 'dead') {
+				isGameOver = true;
+			} else if (moveResult(playerX, playerY + 1) == 'eat') {
+				playerY++;
+				setPlayer(playerX, playerY);
+				// TODO: Remove Food and Update
+			} else if (moveResult(playerX, playerY + 1) == 'empty') {
+				playerY++;
+				setPlayer(playerX, playerY);
+			}
+		// Key Up
 		} else if (key == 38) {
-			keys['up'] = true;
+			if (moveResult(playerX, playerY - 1) == 'dead') {
+				isGameOver = true;
+			} else if (moveResult(playerX, playerY - 1) == 'eat') {
+				playerY--;
+				setPlayer(playerX, playerY);
+				// TODO: Remove Food and Update
+			} else if (moveResult(playerX, playerY - 1) == 'empty') {
+				playerY--;
+				setPlayer(playerX, playerY);
+			}
+		// Key Left
 		} else if (key == 37) {
-			keys['left'] = true;
+			if (moveResult(playerX - 1, playerY) == 'dead') {
+				isGameOver = true;
+			} else if (moveResult(playerX - 1, playerY) == 'eat') {
+				playerX--;
+				setPlayer(playerX, playerY);
+				// TODO: Remove Food and Update
+			} else if (moveResult(playerX - 1, playerY) == 'empty') {
+				playerX--;
+				setPlayer(playerX, playerY);
+			}
+		// Key Right
 		} else if (key == 39) {
-			keys['right'] = true;
-		} else if (key == 65 && tickSpeed < minTickSpeed) {
-			tickSpeed += tickSpeedIncrement;
-			setSpeedTracker()
-		} else if (key == 83 && tickSpeed > maxTickSpeed) {
-			tickSpeed -= tickSpeedIncrement;
-			setSpeedTracker()
+			if (moveResult(playerX + 1, playerY) == 'dead') {
+				isGameOver = true;
+			} else if (moveResult(playerX + 1, playerY) == 'eat') {
+				playerX++;
+				setPlayer(playerX, playerY);
+				// TODO: Remove Food and Update
+			} else if (moveResult(playerX + 1, playerY) == 'empty') {
+				playerX++;
+				setPlayer(playerX, playerY);
+			}
 		}
 	}
 
-	window.onkeyup = function(e) {
-		var key = e.keyCode ? e.keyCode : e.which;
-		if (key == 40) {
-			keys['down'] = false;
-		} else if (key == 38) {
-			keys['up'] = false;
-		} else if (key == 37) {
-			keys['left'] = false;
-		} else if (key == 39) {
-			keys['right'] = false;
+	var levelOneMap = [
+		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W']
+	];
+
+	function levelOne() {
+		renderMap(levelOneMap);
+		setPlayer(1,1);
+		isCompleted = false;
+		levelOneTick();
+		function levelOneTick() {
+			if (isGameOver) {
+				return gameOver();
+			}
+			if (isCompleted) {
+				return levelTwo();
+			}
+			window.setTimeout(levelOneTick, 100);
 		}
 	}
-}
 
-function tryAgain() {
-	$('#gameOver').toggleClass('active');
-	$('#start').toggleClass('active');
-}
+	function levelTwo() {
+		// isCompleted = false;
+		// if (isGameOver) {
+		// 	return gameOver();
+		// }
+		// if (isCompleted) {
+		// 	return levelTwo();
+		// }
+	}
 
-// window.onkeydown = function(e) {
-// 	var key = e.keyCode ? e.keyCode : e.which;
-// 	if (key == 32) {
-// 		$('#gameOver').toggleClass('active',true);
-// 		init();
-// 	}
-// }
+	// Initiate Game
+	$('#mainScreen').toggleClass('active', true);
+	$('#gameOverScreen').toggleClass('active', true);
+	$('#game').toggleClass('active', false);
+	levelOne();
+}

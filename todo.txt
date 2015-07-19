@@ -1,30 +1,46 @@
+TODO:
+- Pause game
+- Spacebar easy start
+// window.onkeydown = function(e) {
+// 	var key = e.keyCode ? e.keyCode : e.which;
+// 	if (key == 32) {
+// 		$('#gameOver').toggleClass('active',true);
+// 		init();
+// 	}
+// }
+
 Game:
+- Maze
 - Timer for each level
 - Different objective each round
 
-
-Level Ideas:
-
-Level 1: Warm Up
-- Collect the 5 randomly placed targets
+Game Components:
+- Timer
+? Coins
 
 
-Can't stop
-Black out
-Lava
-Bombs
-Moving
-Shrinking Size
-Shape Change
-Maze
-Shifting Maze
-Teleportation
-Moving Obstacles (Will Kill You)
-Transport Items
-Collect Time / Need to balance between getting item and getting time
-Changing positions and colors (Have to get a certain color)
-Mouse interactions
+Map Components:
+- Wall
+- Empty
+- Food
+- Teleporter
+- Instant Die (Lava, Water)
+- Breakable walls
+- Keys/Locked Doors
+? Trackers - Can click with mouse to kill them
+? Map changes every 5 seconds
+? Moving Obstacles
+? Half walls for shrinked character
 
-Item Boosters
-- Make you smaller, so you can use short cuts
-- Junk food make you big
+Extras:
+- Choose your character
+- Blackout
+- Items
+    - Extra Time
+    - Bombs
+  ? Shrink your character
+  - Boat: Can go through water
+    - Boat item can only be obtained through
+- Bonus Rounds to get coins
+- Side Games for Items
+? Shop

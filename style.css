@@ -10,6 +10,16 @@ html {
 	overflow-x: hidden;
 }
 
+.active {
+	display: none;
+}
+
+/*
+--------------------------------------------------------
+Main Panel
+--------------------------------------------------------
+*/
+
 #mainPanel {
 	position: absolute;
 	top: 50%;
@@ -20,21 +30,22 @@ html {
 	height: 600px;
 }
 
-#gamePanel {
-	position: relative;
-	display: inline-block;
-	height: 600px;
-	width: 600px;
-	background-color: #4D8A4D;
-}
+/*
+--------------------------------------------------------
+Screens
+--------------------------------------------------------
+*/
 
-.active {
-	display: none;
+#mainScreen {
+	height: 100%;
+	width: 100%;
+	background-color: #3D6BBF;
 }
 
 #start {
 	position: absolute;
 	font-family: 'Oswald', sans-serif;
+	font-weight: 700;
 	font-size: 24px;
 	color: #A6C4A6;
 	height: 35px;
@@ -54,9 +65,16 @@ html {
 	background-color: #5F965F;
 }
 
-#gameOver {
+#gameOverScreen {
+	height: 100%;
+	width: 100%;
+	background-color: orange;
+}
+
+#gameOverMenu {
 	position: absolute;
 	font-family: 'Oswald', sans-serif;
+	font-weight: 700;
 	font-size: 60px;
 	color: #30323F;
 	width: 400px;
@@ -70,101 +88,38 @@ html {
 	border-radius: 10px;
 }
 
-#tryAgain {
+.gameOverMenuButton {
 	display: block;
 	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
 	font-size: 24px;
 	color: #FFFFFF;
 	height: 35px;
 	padding: 5px;
 	width: 200px;
 	text-align: center;
-	margin: 0px auto 0px auto;
+	margin: 5px auto 5px auto;
 	background-color: #30323F;
 	border-radius: 10px;
 	cursor: pointer;
 }
 
-/*
---------------------------------------------------------
-Instructions
---------------------------------------------------------
-*/
-
-#main {
-	background-color: orange;
-	position: relative;
-	height: 100%;
-	width: 100%;
+.gameOverMenuButton:hover {
+	background-color: #2B2D39;
 }
 
 /*
 --------------------------------------------------------
-Info
+Game
 --------------------------------------------------------
 */
 
-#sidePanel {
-	background-color: #3C3F4F;
-	width: 300px;
+#gamePanel {
+	position: relative;
+	display: inline-block;
 	height: 600px;
-	display: inline-block;
-	position: relative;
-}
-
-#score {
-	position: absolute;
-	height: 50px;
-	width: 500px;
-	top: 200px;
-	left: 50%;
-	margin-left: -250px;
-	text-align: center;
-	font-family: 'Oswald', sans-serif;
-	font-size: 100px;
-	color: #505261;
-}
-
-#speed {
-	position: absolute;
-	height: 50px;
-	width: 150px;
-	top: 330px;
-	left: 50%;
-	margin-left: -75px;
-	/*background-color: black;*/
-	text-align: center;
-	font-family: 'Oswald', sans-serif;
-	font-size: 20px;
-	color: #505261;
-	letter-spacing: 2px;
-}
-
-#speedInfo {
-	position: absolute;
-	height: 50px;
-	width: 300px;
-	top: 350px;
-	left: 50%;
-	margin-left: -150px;
-	text-align: center;
-	font-family: 'Oswald', sans-serif;
-	font-size: 20px;
-	color: #505261;
-}
-
-#enabledSpeed {
-	display: inline-block;
-	margin: 0px -5px 0px 0px;
-	padding: 0px;
-	color: #636572;
-}
-
-#disabledSpeed {
-	display: inline-block;
-	margin: 0px;
-	padding: 0px;
-	color: #505261;
+	width: 600px;
+	background-color: #363947;
 }
 
 /*
@@ -182,16 +137,39 @@ Sprites
 	left: 0px;
 }
 
-#sprite {
+#player {
 	position: absolute;
-	height: 30px;
-	width: 30px;
-	top: 30px;
-	left: 30px;
+}
+
+.sprite {
+	height: 24px;
+	width: 24px;
+	padding: 3px;
 }
 
 /*
 --------------------------------------------------------
-Obstacles
+Side Panel
 --------------------------------------------------------
 */
+
+#sidePanel {
+	background-color: #3C3F4F;
+	width: 300px;
+	height: 600px;
+	display: inline-block;
+	position: relative;
+}
+
+#countDown {
+	position: absolute;
+	height: 50px;
+	width: 500px;
+	top: 200px;
+	left: 50%;
+	margin-left: -250px;
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	font-size: 100px;
+	color: #505261;
+}

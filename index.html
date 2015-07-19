@@ -2,33 +2,40 @@
 <head>
 	<title>Simple Game</title>
 	<link href='style.css' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Oswald:700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,700' rel='stylesheet' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
 	<div id="mainPanel">
-		<div id="gamePanel">
-		<!-- <div id="main">
 
-		</div> -->
-			<div id="start" onclick="init()">START</div>
-			<div id="gameOver" class="active">GAME OVER<div id="tryAgain" onclick="tryAgain()">TRY AGAIN</div></div>
-			<div id="game" class="active">
-				<img id="target" src="img/food/1.png"></img>
-				<img id="sprite" src="img/1.png"></img>
+		<div id="gamePanel">
+			<div id="mainScreen">
+				<div id="start" onclick="startGame()">Start</div>
+			</div>
+			<div id="gameOverScreen" class="active">
+				<div id="gameOverMenu">
+					GAME OVER
+					<div class="gameOverMenuButton" onclick="mainScreen()">
+						Main Menu
+					</div>
+					<div class="gameOverMenuButton" onclick="tryAgain()">
+						Try Again
+					</div>
+				</div>
+			</div>
+			<div id="game"  class="active">
+				<img id="player" class="sprite active" src="img/characters/1.png"></img>
+				<canvas id="canvas">
+				</canvas>
 			</div>
 		</div>
+
 		<div id="sidePanel">
 			<div id="info">
-				<div id="score">0</div>
-				<div id="speed">
-					<div id="enabledSpeed">&#8226;</div>
-					<div id="disabledSpeed">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
-				</div>
-				<div id="speedInfo"><p>A: Slow Down<br>S: Speed Up</p></div>
+				<div id="countDown">0</div>
 			</div>
 		</div>
 	</div>
-<script src="game.js"></script>
+	<script src="game.js"></script>
 </body>
 </html>
