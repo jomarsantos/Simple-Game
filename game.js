@@ -31,6 +31,8 @@ function startGame() {
 	// Level Variables
 	var currentMap;
 	var foodRemaining;
+	var countDown;
+	var countDownTimeout;
 
 	// Set Up Canvas
 	$('#canvas').toggleClass('active',false);
@@ -105,6 +107,17 @@ function startGame() {
 		currentMap[y][x] = currentMap[y][x].charAt(0);
 	}
 
+	// Set Count Down
+	function setCountDown(x) {
+		countDown = x + 1;
+		countDownTick();
+		function countDownTick() {
+			countDown--;
+			document.getElementById('countDown').innerHTML = countDown;
+			countDownTimeout = setTimeout(countDownTick, 1000);
+		}
+	}
+
 	// Key Handling
 	window.onkeydown = function(e) {
 		var key = e.keyCode ? e.keyCode : e.which;
@@ -161,7 +174,7 @@ function startGame() {
 
 	var levelOneMap = [
 		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
-		['W','GP','GF1','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','GP','GF0','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
 		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
 		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
 		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
@@ -184,20 +197,26 @@ function startGame() {
 
 	function levelOne() {
 		foodRemaining = 1;
+		setCountDown(5);
 		renderMap(levelOneMap);
 		isCompleted = false;
 		levelOneTick();
 		function levelOneTick() {
+			if (countDown == 0) {
+				isGameOver = true;
+			}
 			if (isGameOver) {
+				clearTimeout(countDownTimeout);
 				return gameOver();
 			}
 			if (foodRemaining == 0) {
 				isCompleted = true;
 			}
 			if (isCompleted) {
+				clearTimeout(countDownTimeout);
 				return levelTwo();
 			}
-			window.setTimeout(levelOneTick, 1000/60);
+				window.setTimeout(levelOneTick, 1000/60);
 		}
 	}
 
