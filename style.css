@@ -78,7 +78,7 @@ Screens
 	font-size: 60px;
 	color: #30323F;
 	width: 400px;
-	top: 35%;
+	top: 30%;
 	left: 50%;
 	margin-left: -200px;
 	padding-top: 10px;
@@ -129,19 +129,8 @@ Sprites
 --------------------------------------------------------
 */
 
-#target {
-	position: absolute;
-	height: 30px;
-	width: 30px;
-	top: 0px;
-	left: 0px;
-}
-
-#player {
-	position: absolute;
-}
-
 .sprite {
+	position: absolute;
 	height: 24px;
 	width: 24px;
 	padding: 3px;
@@ -171,5 +160,6 @@ Side Panel
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 	font-size: 100px;
+	font-weight: 700;
 	color: #505261;
 }

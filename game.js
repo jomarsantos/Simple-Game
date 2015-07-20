@@ -23,18 +23,14 @@ function startGame() {
 	var isCompleted = false;
 
 	// Constants
-	var spriteColumn = 1;
-	var spriteRow = 1;
-	var spriteHeight = 30;
-	var spriteWidth = 30;
 	var playerX = 1;
 	var playerY = 1;
-	var spriteSpeed = 30;
 	var tileDimension = 30;
 	var mapDimension = 20;
 
-	// Current Map
+	// Level Variables
 	var currentMap;
+	var foodRemaining;
 
 	// Set Up Canvas
 	$('#canvas').toggleClass('active',false);
@@ -50,13 +46,19 @@ function startGame() {
 		ctx.fillStyle = "#363947";
 		for (i = 0; i < mapDimension; i++) {
 			for (j = 0; j < mapDimension; j++) {
-				if (map[i][j] == 'W'){
+				if (map[i][j].charAt(0) == 'W'){
 					ctx.fillStyle = "#363947";
 					ctx.fillRect(j * tileDimension,i * tileDimension, tileDimension, tileDimension);
-				}
-				if (map[i][j] == 'X'){
+				}	else if (map[i][j].charAt(0) == 'G'){
 					ctx.fillStyle = "#4D8A4D";
 					ctx.fillRect(j * tileDimension,i * tileDimension, tileDimension, tileDimension);
+				}
+				if (map[i][j].length > 1) {
+					if (map[i][j].charAt(1) == 'P'){
+						setPlayer(j,i);
+					} else if (map[i][j].charAt(1) == 'F'){
+						setFood(map[i][j].charAt(2), j, i);
+					}
 				}
 			}
 		}
@@ -74,11 +76,33 @@ function startGame() {
 
 	// Returns the result of a move (checks the value of a position)
 	function moveResult(x,y) {
-		if (currentMap[x][y] == 'W') {
+		console.log(currentMap);
+		if (currentMap[y][x].charAt(1) == 'F') {
+			return 'eat';
+		}
+		if (currentMap[y][x].charAt(0) == 'W') {
 			return 'dead';
-		} else if (currentMap[x][y] == 'X') {
+		} else if (currentMap[y][x].charAt(0) == 'G') {
 			return 'empty';
 		}
+	}
+
+	// Set Food's Position
+	function setFood(num, x, y) {
+		var id = 'food' + num;
+		var food = document.getElementById(id);
+		food.style.top = y * tileDimension;
+		food.style.left = x * tileDimension;
+		$('#' + id).toggleClass('active', false);
+	}
+
+	// Returns the result of a move (checks the value of a position)
+	function removeFood(x,y) {
+		foodRemaining--;
+		var num = currentMap[y][x].charAt(2);
+		var id = 'food' + num;
+		$('#' + id).toggleClass('active', true);
+		currentMap[y][x] = currentMap[y][x].charAt(0);
 	}
 
 	// Key Handling
@@ -91,7 +115,7 @@ function startGame() {
 			} else if (moveResult(playerX, playerY + 1) == 'eat') {
 				playerY++;
 				setPlayer(playerX, playerY);
-				// TODO: Remove Food and Update
+				removeFood(playerX, playerY);
 			} else if (moveResult(playerX, playerY + 1) == 'empty') {
 				playerY++;
 				setPlayer(playerX, playerY);
@@ -103,7 +127,7 @@ function startGame() {
 			} else if (moveResult(playerX, playerY - 1) == 'eat') {
 				playerY--;
 				setPlayer(playerX, playerY);
-				// TODO: Remove Food and Update
+				removeFood(playerX, playerY);
 			} else if (moveResult(playerX, playerY - 1) == 'empty') {
 				playerY--;
 				setPlayer(playerX, playerY);
@@ -115,7 +139,7 @@ function startGame() {
 			} else if (moveResult(playerX - 1, playerY) == 'eat') {
 				playerX--;
 				setPlayer(playerX, playerY);
-				// TODO: Remove Food and Update
+				removeFood(playerX, playerY);
 			} else if (moveResult(playerX - 1, playerY) == 'empty') {
 				playerX--;
 				setPlayer(playerX, playerY);
@@ -127,7 +151,7 @@ function startGame() {
 			} else if (moveResult(playerX + 1, playerY) == 'eat') {
 				playerX++;
 				setPlayer(playerX, playerY);
-				// TODO: Remove Food and Update
+				removeFood(playerX, playerY);
 			} else if (moveResult(playerX + 1, playerY) == 'empty') {
 				playerX++;
 				setPlayer(playerX, playerY);
@@ -137,51 +161,71 @@ function startGame() {
 
 	var levelOneMap = [
 		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
-		['W','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','W'],
+		['W','GP','GF1','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
 		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W']
 	];
 
 	function levelOne() {
+		foodRemaining = 1;
 		renderMap(levelOneMap);
-		setPlayer(1,1);
 		isCompleted = false;
 		levelOneTick();
 		function levelOneTick() {
 			if (isGameOver) {
 				return gameOver();
 			}
+			if (foodRemaining == 0) {
+				isCompleted = true;
+			}
 			if (isCompleted) {
 				return levelTwo();
 			}
-			window.setTimeout(levelOneTick, 100);
+			window.setTimeout(levelOneTick, 1000/60);
 		}
 	}
 
+	var levelTwoMap = [
+		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
+		['W','G','G','GF2','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','GP','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W']
+	];
+
 	function levelTwo() {
-		// isCompleted = false;
-		// if (isGameOver) {
-		// 	return gameOver();
-		// }
-		// if (isCompleted) {
-		// 	return levelTwo();
-		// }
+
 	}
 
 	// Initiate Game
