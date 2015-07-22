@@ -6,8 +6,17 @@ function mainScreen() {
 
 // Game Over Menu
 function gameOver() {
+	clearFood();
 	$('#game').toggleClass('active',true);
 	$('#gameOverScreen').toggleClass('active',false);
+}
+
+// Clear Food
+function clearFood() {
+	var x;
+	for (x = 0; x < 10; x++) {
+		$('#food' + x).toggleClass('active', true);
+	}
 }
 
 // Performed When Clicking "Try Again" From Game Over Menu
@@ -49,10 +58,10 @@ function startGame() {
 		for (i = 0; i < mapDimension; i++) {
 			for (j = 0; j < mapDimension; j++) {
 				if (map[i][j].charAt(0) == 'W'){
-					ctx.fillStyle = "#363947";
+					ctx.fillStyle = "#3D6BBF";
 					ctx.fillRect(j * tileDimension,i * tileDimension, tileDimension, tileDimension);
 				}	else if (map[i][j].charAt(0) == 'G'){
-					ctx.fillStyle = "#4D8A4D";
+					ctx.fillStyle = "#B8A073";
 					ctx.fillRect(j * tileDimension,i * tileDimension, tileDimension, tileDimension);
 				}
 				if (map[i][j].length > 1) {
@@ -78,14 +87,12 @@ function startGame() {
 
 	// Returns the result of a move (checks the value of a position)
 	function moveResult(x,y) {
-		console.log(currentMap);
 		if (currentMap[y][x].charAt(1) == 'F') {
 			return 'eat';
-		}
-		if (currentMap[y][x].charAt(0) == 'W') {
-			return 'dead';
 		} else if (currentMap[y][x].charAt(0) == 'G') {
 			return 'empty';
+		} else if (currentMap[y][x].charAt(0) == 'W') {
+			return 'dead';
 		}
 	}
 
@@ -169,15 +176,17 @@ function startGame() {
 				playerX++;
 				setPlayer(playerX, playerY);
 			}
+		} else if (key == 39) {
+			startGame();
 		}
 	}
 
 	var levelOneMap = [
 		['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
 		['W','GP','GF0','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
+		['W','G','W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
 		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
 		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
 		['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
@@ -216,7 +225,7 @@ function startGame() {
 				clearTimeout(countDownTimeout);
 				return levelTwo();
 			}
-				window.setTimeout(levelOneTick, 1000/60);
+			window.setTimeout(levelOneTick, 1000/60);
 		}
 	}
 
@@ -244,7 +253,28 @@ function startGame() {
 	];
 
 	function levelTwo() {
-
+		foodRemaining = 1;
+		setCountDown(5);
+		renderMap(levelTwoMap);
+		isCompleted = false;
+		levelOneTick();
+		function levelOneTick() {
+			if (countDown == 0) {
+				isGameOver = true;
+			}
+			if (isGameOver) {
+				clearTimeout(countDownTimeout);
+				return gameOver();
+			}
+			if (foodRemaining == 0) {
+				isCompleted = true;
+			}
+			if (isCompleted) {
+				clearTimeout(countDownTimeout);
+				return;
+			}
+			window.setTimeout(levelOneTick, 1000/60);
+		}
 	}
 
 	// Initiate Game
@@ -253,3 +283,11 @@ function startGame() {
 	$('#game').toggleClass('active', false);
 	levelOne();
 }
+
+// window.onkeydown = function(e) {
+// 	var key = e.keyCode ? e.keyCode : e.which;
+// 	// Space Bar
+// 	if (key == 32 || key == 13) {
+// 		startGame();
+// 	}
+// }

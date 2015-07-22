@@ -1,13 +1,6 @@
 TODO:
 - Pause game
 - Spacebar easy start
-// window.onkeydown = function(e) {
-// 	var key = e.keyCode ? e.keyCode : e.which;
-// 	if (key == 32) {
-// 		$('#gameOver').toggleClass('active',true);
-// 		init();
-// 	}
-// }
 
 Game:
 - Maze
