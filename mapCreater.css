@@ -1,0 +1,71 @@
+html {
+  background-color: #30323F;
+}
+
+#selected {
+  height: 26px;
+  width: 26px;
+  border-width: 2px;
+  border-color: red;
+  position: absolute;
+  border-style: solid;
+}
+
+#map {
+  height: 600px;
+  width: 820px;
+  top: 50%;
+  left: 50%;
+  margin-top: -300px;
+  margin-left: -410px;
+  position: absolute;
+}
+
+#sidePanel {
+  height: 600px;
+  width: 170px;
+  margin-left: 30px;
+  background-color: #262832;
+	display: inline-block;
+}
+
+#legend {
+  height: 500px;
+  width: 160px;
+  padding-top: 2px;
+  margin: 5px;
+  background-color: #1D1E26;
+	display: block;
+  border-radius: 10px;
+}
+
+.legendItem {
+  height: 40px;
+  width: 150px;
+  margin: 5px 5px 0px 5px;
+  background-color: #34343C;
+	display: block;
+  border-radius: 10px;
+}
+
+#done {
+  height: 38px;
+  width: 160px;
+  margin: 5px;
+  background-color: #70DB70;
+	display: block;
+  border-radius: 10px;
+}
+
+#reset {
+  height: 38px;
+  width: 160px;
+  margin: 5px;
+  background-color: #FF6666;
+	display: block;
+  border-radius: 10px;
+}
+
+#canvas {
+	display: inline-block;
+}
