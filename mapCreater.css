@@ -2,6 +2,10 @@ html {
   background-color: #30323F;
 }
 
+.active {
+  display: none;
+}
+
 #selected {
   height: 26px;
   width: 26px;
@@ -21,12 +25,20 @@ html {
   position: absolute;
 }
 
+#mapCanvas {
+  height: 600px;
+  width: 600px;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
 #sidePanel {
   height: 600px;
   width: 170px;
   margin-left: 30px;
   background-color: #262832;
 	display: inline-block;
+  vertical-align: bottom;
 }
 
 #legend {
@@ -40,32 +52,67 @@ html {
 }
 
 .legendItem {
-  height: 40px;
-  width: 150px;
+  height: 24px;
+  width: 134px;
   margin: 5px 5px 0px 5px;
+  padding: 8px;
   background-color: #34343C;
 	display: block;
   border-radius: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
 }
 
 #done {
-  height: 38px;
+  height: 30px;
   width: 160px;
   margin: 5px;
+  padding-top: 8px;
   background-color: #70DB70;
 	display: block;
   border-radius: 10px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+  display: ;
+  position: relative;
+  cursor: pointer;
 }
 
 #reset {
-  height: 38px;
+  height: 30px;
   width: 160px;
   margin: 5px;
+  padding-top: 8px;
   background-color: #FF6666;
 	display: block;
   border-radius: 10px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	color: #FFFFFF;
+  display: block;
+  position: relative;
+  cursor: pointer;
 }
 
 #canvas {
 	display: inline-block;
+}
+
+#source {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  padding: 30px;
+  height: 540;
+  width: 540;
+  background-color: #FFFFFF;
+  position: absolute;
 }

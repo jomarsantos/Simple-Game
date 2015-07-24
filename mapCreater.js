@@ -151,3 +151,9 @@ function setCurrPos(x) {
     ctx.fillRect(selectedX * tileDimension, selectedY * tileDimension, tileDimension, tileDimension);
   }
 }
+
+function done() {
+  $('#selected').toggleClass('active',true);
+  $('#source').toggleClass('active',false);
+  document.getElementById("mapSource").innerHTML = JSON.stringify(currentMap);
+}

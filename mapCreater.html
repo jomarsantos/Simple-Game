@@ -7,37 +7,55 @@
 </head>
 <body>
   <div id="map">
+    <div id="source">
+      <p id="mapSource">
+      </p>
+    </div>
     <div id="selected">
     </div>
-    <canvas id="canvas"></canvas>
+    <div id="mapCanvas">
+      <canvas id="canvas"></canvas>
+    </div>
     <div id="sidePanel">
       <div id="legend">
         <div class="legendItem">
+          1
         </div>
         <div class="legendItem">
+          2
         </div>
         <div class="legendItem">
+          3
         </div>
         <div class="legendItem">
+          4
         </div>
         <div class="legendItem">
+          5
         </div>
         <div class="legendItem">
+          6
         </div>
         <div class="legendItem">
+          7
         </div>
         <div class="legendItem">
+          8
         </div>
         <div class="legendItem">
+          9
         </div>
         <div class="legendItem">
+          0
         </div>
         <div class="legendItem">
         </div>
       </div>
-      <div id="done">
+      <div id="done" onclick="done()">
+        DONE
       </div>
-      <div id="reset">
+      <div id="reset" onclick="reset()">
+        RESET
       </div>
     </div>
   </div>
