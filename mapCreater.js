@@ -1,38 +1,49 @@
+// Map Constants
 var tileDimension = 30;
 var mapDimension = 20;
 
+// Selected
 var selectedX = 0;
 var selectedY = 0;
 
+// Food
+var food = [false, false, false, false, false, false, false, false, false, false];
+
+// Canvas Initialization
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = tileDimension * mapDimension;
 canvas.height = tileDimension * mapDimension;
 
-var blankMap = [
-  ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','W'],
-  ['W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W','W']
-];
+// Initial Blank Map
+var blankMap =
+  [["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
+  ["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"]];
 
-var currentMap = blankMap.slice();
+// Duplicate Blank Map
+var currentMap = [];
+for (var i = 0; i < blankMap.length; i++)
+    currentMap[i] = blankMap[i].slice();
+
+// Render Map On Initialization and Reset
 renderMap(currentMap);
 function renderMap(map) {
   currentMap = map;
@@ -93,8 +104,7 @@ window.onkeydown = function(e) {
     setCurrPos('G');
     // 3
   } else if (key == 51 || key == 99) {
-
-
+    toggleFood();
     // 4
   } else if (key == 52 || key == 100) {
 
@@ -126,6 +136,7 @@ window.onkeydown = function(e) {
   }
 }
 
+// Check If Selected Can Move Here
 function canMoveHere(x, y) {
   if (x >= 0 && x <= 19 && y >= 0 && y <= 19) {
     return true;
@@ -140,9 +151,9 @@ function setSelected(x, y) {
   selected.style.left = x * tileDimension;
 }
 
-// Set Selected Position
+// Set Map Position With Type
 function setCurrPos(x) {
-  currentMap[selectedX][selectedY] = x;
+  currentMap[selectedY][selectedX] = x;
   if (x == 'W'){
     ctx.fillStyle = "#3D6BBF";
     ctx.fillRect(selectedX * tileDimension, selectedY * tileDimension, tileDimension, tileDimension);
@@ -152,8 +163,46 @@ function setCurrPos(x) {
   }
 }
 
+// Set Food's Position
+function toggleFood() {
+  if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0);
+  } else {
+    var i;
+    for (i = 0; i < food.length; i++) {
+      if (food[i] == false) {
+        break;
+      }
+    }
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX] + 'F' + i;
+    var id = 'food' + i;
+    var food = document.getElementById(id);
+    food.style.top = selectedY * tileDimension;
+    food.style.left = selectedX * tileDimension;
+    $('#' + id).toggleClass('active', false);
+  }
+}
+
+// On Click Of Done Button Open Source Pop Up
 function done() {
   $('#selected').toggleClass('active',true);
   $('#source').toggleClass('active',false);
-  document.getElementById("mapSource").innerHTML = JSON.stringify(currentMap);
+  var source = JSON.stringify(currentMap);
+  document.getElementById("source").innerHTML = source.replace(new RegExp("],", "g"), "],<br>");
+}
+
+// Close Source Pop Up
+function closeSource() {
+  $('#selected').toggleClass('active', false);
+  $('#source').toggleClass('active', true);
+}
+
+// Reset Map
+function reset() {
+  $('#selected').toggleClass('active', false);
+  $('#source').toggleClass('active', true);
+  currentMap = [];
+  for (var i = 0; i < blankMap.length; i++)
+      currentMap[i] = blankMap[i].slice();
+  renderMap(currentMap);
 }

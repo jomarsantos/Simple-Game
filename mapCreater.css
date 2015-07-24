@@ -15,6 +15,13 @@ html {
   border-style: solid;
 }
 
+.sprite {
+	position: absolute;
+	height: 24px;
+	width: 24px;
+	padding: 3px;
+}
+
 #map {
   height: 600px;
   width: 820px;
@@ -63,6 +70,7 @@ html {
   font-size: 14px;
   font-weight: 400;
   color: #FFFFFF;
+  text-align: center;
 }
 
 #done {
@@ -110,9 +118,29 @@ html {
   font-size: 12px;
   font-weight: 400;
   color: #000000;
-  padding: 30px;
-  height: 540;
-  width: 540;
+  margin: 35px;
+  padding:25px;
+  height: 480;
+  width: 480;
   background-color: #FFFFFF;
   position: absolute;
+  border-radius: 10px;
+}
+
+#closeSource {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #FFFFFF;
+  bottom: 10%;
+  left: 50%;
+  margin-left: -25px;
+  padding: 5px;
+  height: 20px;
+  width: 40px;
+  background-color: #70DB70;
+  position: absolute;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
 }

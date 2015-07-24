@@ -7,10 +7,23 @@
 </head>
 <body>
   <div id="map">
-    <div id="source">
+    <div id="source" class="active">
       <p id="mapSource">
       </p>
+      <div id="closeSource" onclick="closeSource()">
+        CLOSE
+      </div>
     </div>
+    <img id="food0" class="sprite active" src="img/food/0.png"></img>
+    <img id="food1" class="sprite active" src="img/food/1.png"></img>
+    <img id="food2" class="sprite active" src="img/food/2.png"></img>
+    <img id="food3" class="sprite active" src="img/food/3.png"></img>
+    <img id="food4" class="sprite active" src="img/food/4.png"></img>
+    <img id="food5" class="sprite active" src="img/food/5.png"></img>
+    <img id="food6" class="sprite active" src="img/food/6.png"></img>
+    <img id="food7" class="sprite active" src="img/food/7.png"></img>
+    <img id="food8" class="sprite active" src="img/food/8.png"></img>
+    <img id="food9" class="sprite active" src="img/food/9.png"></img>
     <div id="selected">
     </div>
     <div id="mapCanvas">
@@ -19,13 +32,13 @@
     <div id="sidePanel">
       <div id="legend">
         <div class="legendItem">
-          1
+          1 - WATER
         </div>
         <div class="legendItem">
-          2
+          2 - LAND
         </div>
         <div class="legendItem">
-          3
+          3 - FOOD
         </div>
         <div class="legendItem">
           4
