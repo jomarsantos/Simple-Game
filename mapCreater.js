@@ -8,6 +8,7 @@ var selectedY = 0;
 
 // Food Tracker
 var foodTracker = [false, false, false, false, false, false, false, false, false, false];
+var foodAmt = 0;
 
 // Player Set
 var playerSet = false;
@@ -158,6 +159,7 @@ function setCurrPos(x) {
       foodTracker[currentMap[selectedY][selectedX].charAt(2)] = false;
       var id = 'food' + currentMap[selectedY][selectedX].charAt(2);
       $('#' + id).toggleClass('active', true);
+      foodAmt--;
     }
     if(currentMap[selectedY][selectedX].charAt(1) == 'P') {
       playerSet = false;
@@ -187,8 +189,11 @@ function togglePlayer() {
     currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0);
     $('#player').toggleClass('active', true);
     playerSet = false;
-  } else if (currentMap[selectedY][selectedX].charAt(1) != 'P' && playerSet) {
-    currentMap[playerY][playerX] = currentMap[playerY][playerX].charAt(0);
+  } else if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
+    foodTracker[currentMap[selectedY][selectedX].charAt(2)] = false;
+    var id = 'food' + currentMap[selectedY][selectedX].charAt(2);
+    $('#' + id).toggleClass('active', true);
+    foodAmt--;
     currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0) + 'P';
     var player = document.getElementById('player');
     player.style.top = selectedY * tileDimension;
@@ -197,10 +202,8 @@ function togglePlayer() {
     playerX = selectedX;
     playerY = selectedY;
     playerSet = true;
-  } else if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
-    foodTracker[currentMap[selectedY][selectedX].charAt(2)] = false;
-    var id = 'food' + currentMap[selectedY][selectedX].charAt(2);
-    $('#' + id).toggleClass('active', true);
+  } else if (currentMap[selectedY][selectedX].charAt(1) != 'P' && playerSet) {
+    currentMap[playerY][playerX] = currentMap[playerY][playerX].charAt(0);
     currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0) + 'P';
     var player = document.getElementById('player');
     player.style.top = selectedY * tileDimension;
@@ -225,7 +228,7 @@ function togglePlayer() {
 function toggleFood() {
   if(currentMap[selectedY][selectedX].charAt(0) == 'W') {
     return;
-  } else if(currentMap[selectedY][selectedX].charAt(1) == 'P') {
+  } else if(currentMap[selectedY][selectedX].charAt(1) == 'P' && foodAmt < 10) {
     currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0);
     $('#player').toggleClass('active', true);
     playerSet = false;
@@ -242,12 +245,14 @@ function toggleFood() {
     food.style.top = selectedY * tileDimension;
     food.style.left = selectedX * tileDimension;
     $('#' + id).toggleClass('active', false);
+    foodAmt++;
   } else if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
     foodTracker[currentMap[selectedY][selectedX].charAt(2)] = false;
     var id = 'food' + currentMap[selectedY][selectedX].charAt(2);
     $('#' + id).toggleClass('active', true);
     currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0);
-  } else {
+    foodAmt--;
+  } else if (foodAmt < 10){
     var i;
     for (i = 0; i < foodTracker.length; i++) {
       if (foodTracker[i] == false) {
@@ -261,6 +266,7 @@ function toggleFood() {
     food.style.top = selectedY * tileDimension;
     food.style.left = selectedX * tileDimension;
     $('#' + id).toggleClass('active', false);
+    foodAmt++;
   }
 }
 
@@ -271,13 +277,6 @@ function done() {
   var source = JSON.stringify(currentMap);
   if (playerSet) {
     document.getElementById("mapSource").innerHTML = source.replace(new RegExp("],", "g"), "],<br>");
-    var i;
-    var foodAmt = 0;
-    for (i = 0; i < foodTracker.length; i++) {
-      if (foodTracker[i] == true) {
-        foodAmt++;
-      }
-    }
     document.getElementById("foodAmt").innerHTML = "Amount of Food: " + foodAmt;
   } else {
     document.getElementById("mapSource").innerHTML = "Error: Player's starting position must be set for map source to be generated.";
@@ -299,6 +298,7 @@ function reset() {
     }
   }
   $('#player').toggleClass('active', true);
+  foodAmt = 0;
   foodTracker = [false, false, false, false, false, false, false, false, false, false];
   playerSet = false;
   $('#selected').toggleClass('active', false);
