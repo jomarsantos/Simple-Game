@@ -269,16 +269,19 @@ function done() {
   $('#selected').toggleClass('active',true);
   $('#source').toggleClass('active');
   var source = JSON.stringify(currentMap);
-  document.getElementById("mapSource").innerHTML = source.replace(new RegExp("],", "g"), "],<br>");
-  var i;
-  var foodAmt = 0;
-  for (i = 0; i < foodTracker.length; i++) {
-    if (foodTracker[i] == true) {
-      foodAmt++;
+  if (playerSet) {
+    document.getElementById("mapSource").innerHTML = source.replace(new RegExp("],", "g"), "],<br>");
+    var i;
+    var foodAmt = 0;
+    for (i = 0; i < foodTracker.length; i++) {
+      if (foodTracker[i] == true) {
+        foodAmt++;
+      }
     }
+    document.getElementById("foodAmt").innerHTML = "Amount of Food: " + foodAmt;
+  } else {
+    document.getElementById("mapSource").innerHTML = "Error: Player's starting position must be set for map source to be generated.";
   }
-  console.log(foodAmt);
-  document.getElementById("foodAmt").innerHTML = "Amount of Food: " + foodAmt;
 }
 
 // Close Source Pop Up
