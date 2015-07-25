@@ -6,8 +6,11 @@ var mapDimension = 20;
 var selectedX = 0;
 var selectedY = 0;
 
-// Food
-var food = [false, false, false, false, false, false, false, false, false, false];
+// Food Tracker
+var foodTracker = [false, false, false, false, false, false, false, false, false, false];
+
+// Player Set
+var playerSet = false;
 
 // Canvas Initialization
 var canvas = document.getElementById("canvas");
@@ -16,8 +19,8 @@ canvas.width = tileDimension * mapDimension;
 canvas.height = tileDimension * mapDimension;
 
 // Initial Blank Map
-var blankMap =
-  [["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"],
+var blankMap = [
+  ["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"],
   ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
   ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
   ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
@@ -36,7 +39,8 @@ var blankMap =
   ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
   ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
   ["W","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","W"],
-  ["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"]];
+  ["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"]
+];
 
 // Duplicate Blank Map
 var currentMap = [];
@@ -57,13 +61,6 @@ function renderMap(map) {
       }	else if (map[i][j].charAt(0) == 'G'){
         ctx.fillStyle = "#B8A073";
         ctx.fillRect(j * tileDimension,i * tileDimension, tileDimension, tileDimension);
-      }
-      if (map[i][j].length > 1) {
-        if (map[i][j].charAt(1) == 'P'){
-          setPlayer(j,i);
-        } else if (map[i][j].charAt(1) == 'F'){
-          setFood(map[i][j].charAt(2), j, i);
-        }
       }
     }
   }
@@ -133,6 +130,9 @@ window.onkeydown = function(e) {
   } else if (key == 48 || key == 96) {
 
 
+   // 0
+  } else if (key == 80) {
+    togglePlayer();
   }
 }
 
@@ -153,24 +153,105 @@ function setSelected(x, y) {
 
 // Set Map Position With Type
 function setCurrPos(x) {
-  currentMap[selectedY][selectedX] = x;
   if (x == 'W'){
+    if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
+      foodTracker[currentMap[selectedY][selectedX].charAt(2)] = false;
+      var id = 'food' + currentMap[selectedY][selectedX].charAt(2);
+      $('#' + id).toggleClass('active', true);
+    }
+    if(currentMap[selectedY][selectedX].charAt(1) == 'P') {
+      playerSet = false;
+      $('#player').toggleClass('active', true);
+    }
     ctx.fillStyle = "#3D6BBF";
     ctx.fillRect(selectedX * tileDimension, selectedY * tileDimension, tileDimension, tileDimension);
+    currentMap[selectedY][selectedX] = x;
   }	else if (x == 'G'){
+    if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
+      currentMap[selectedY][selectedX] = x + currentMap[selectedY][selectedX].substring(1,3);
+    } else if(currentMap[selectedY][selectedX].charAt(1) == 'P') {
+      currentMap[selectedY][selectedX] = x + 'P';
+    } else {
+      currentMap[selectedY][selectedX] = x;
+    }
     ctx.fillStyle = "#B8A073";
     ctx.fillRect(selectedX * tileDimension, selectedY * tileDimension, tileDimension, tileDimension);
   }
 }
 
-// Set Food's Position
+// Toggle Player at Current Position
+function togglePlayer() {
+  if(currentMap[selectedY][selectedX].charAt(0) == 'W') {
+    return;
+  } else if (currentMap[selectedY][selectedX].charAt(1) == 'P') {
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0);
+    $('#player').toggleClass('active', true);
+    playerSet = false;
+  } else if (currentMap[selectedY][selectedX].charAt(1) != 'P' && playerSet) {
+    currentMap[playerY][playerX] = currentMap[playerY][playerX].charAt(0);
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0) + 'P';
+    var player = document.getElementById('player');
+    player.style.top = selectedY * tileDimension;
+    player.style.left = selectedX * tileDimension;
+    $('#player').toggleClass('active', false);
+    playerX = selectedX;
+    playerY = selectedY;
+    playerSet = true;
+  } else if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
+    foodTracker[currentMap[selectedY][selectedX].charAt(2)] = false;
+    var id = 'food' + currentMap[selectedY][selectedX].charAt(2);
+    $('#' + id).toggleClass('active', true);
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0) + 'P';
+    var player = document.getElementById('player');
+    player.style.top = selectedY * tileDimension;
+    player.style.left = selectedX * tileDimension;
+    $('#player').toggleClass('active', false);
+    playerX = selectedX;
+    playerY = selectedY;
+    playerSet = true;
+  } else {
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0) + 'P';
+    var player = document.getElementById('player');
+    player.style.top = selectedY * tileDimension;
+    player.style.left = selectedX * tileDimension;
+    $('#player').toggleClass('active', false);
+    playerX = selectedX;
+    playerY = selectedY;
+    playerSet = true;
+  }
+}
+
+// Toggle Food at Current Position
 function toggleFood() {
-  if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
+  if(currentMap[selectedY][selectedX].charAt(0) == 'W') {
+    return;
+  } else if(currentMap[selectedY][selectedX].charAt(1) == 'P') {
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0);
+    $('#player').toggleClass('active', true);
+    playerSet = false;
+    var i;
+    for (i = 0; i < foodTracker.length; i++) {
+      if (foodTracker[i] == false) {
+        foodTracker[i] = true;
+        break;
+      }
+    }
+    currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX] + 'F' + i;
+    var id = 'food' + i;
+    var food = document.getElementById(id);
+    food.style.top = selectedY * tileDimension;
+    food.style.left = selectedX * tileDimension;
+    $('#' + id).toggleClass('active', false);
+  } else if(currentMap[selectedY][selectedX].charAt(1) == 'F') {
+    foodTracker[currentMap[selectedY][selectedX].charAt(2)] = false;
+    var id = 'food' + currentMap[selectedY][selectedX].charAt(2);
+    $('#' + id).toggleClass('active', true);
     currentMap[selectedY][selectedX] = currentMap[selectedY][selectedX].charAt(0);
   } else {
     var i;
-    for (i = 0; i < food.length; i++) {
-      if (food[i] == false) {
+    for (i = 0; i < foodTracker.length; i++) {
+      if (foodTracker[i] == false) {
+        foodTracker[i] = true;
         break;
       }
     }
@@ -186,9 +267,18 @@ function toggleFood() {
 // On Click Of Done Button Open Source Pop Up
 function done() {
   $('#selected').toggleClass('active',true);
-  $('#source').toggleClass('active',false);
+  $('#source').toggleClass('active');
   var source = JSON.stringify(currentMap);
-  document.getElementById("source").innerHTML = source.replace(new RegExp("],", "g"), "],<br>");
+  document.getElementById("mapSource").innerHTML = source.replace(new RegExp("],", "g"), "],<br>");
+  var i;
+  var foodAmt = 0;
+  for (i = 0; i < foodTracker.length; i++) {
+    if (foodTracker[i] == true) {
+      foodAmt++;
+    }
+  }
+  console.log(foodAmt);
+  document.getElementById("foodAmt").innerHTML = "Amount of Food: " + foodAmt;
 }
 
 // Close Source Pop Up
@@ -199,6 +289,15 @@ function closeSource() {
 
 // Reset Map
 function reset() {
+  var i;
+  for (i = 0; i < foodTracker.length; i++) {
+    if (foodTracker[i] == true) {
+      $('#food' + i).toggleClass('active', true);
+    }
+  }
+  $('#player').toggleClass('active', true);
+  foodTracker = [false, false, false, false, false, false, false, false, false, false];
+  playerSet = false;
   $('#selected').toggleClass('active', false);
   $('#source').toggleClass('active', true);
   currentMap = [];

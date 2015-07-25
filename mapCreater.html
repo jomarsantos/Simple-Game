@@ -7,13 +7,6 @@
 </head>
 <body>
   <div id="map">
-    <div id="source" class="active">
-      <p id="mapSource">
-      </p>
-      <div id="closeSource" onclick="closeSource()">
-        CLOSE
-      </div>
-    </div>
     <img id="food0" class="sprite active" src="img/food/0.png"></img>
     <img id="food1" class="sprite active" src="img/food/1.png"></img>
     <img id="food2" class="sprite active" src="img/food/2.png"></img>
@@ -24,13 +17,25 @@
     <img id="food7" class="sprite active" src="img/food/7.png"></img>
     <img id="food8" class="sprite active" src="img/food/8.png"></img>
     <img id="food9" class="sprite active" src="img/food/9.png"></img>
-    <div id="selected">
+    <img id="player" class="sprite active" src="img/characters/1.png"></img>
+    <div id="selected"></div>
+    <div id="source" class="active">
+      <p id="mapSource">
+      </p>
+      <p id="foodAmt">
+      </p>
+      <div id="closeSource" onclick="closeSource()">
+        CLOSE
+      </div>
     </div>
     <div id="mapCanvas">
       <canvas id="canvas"></canvas>
     </div>
     <div id="sidePanel">
       <div id="legend">
+        <div class="legendItem">
+          P - PLAYER
+        </div>
         <div class="legendItem">
           1 - WATER
         </div>
@@ -60,8 +65,6 @@
         </div>
         <div class="legendItem">
           0
-        </div>
-        <div class="legendItem">
         </div>
       </div>
       <div id="done" onclick="done()">
