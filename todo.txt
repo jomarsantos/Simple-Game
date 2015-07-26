@@ -25,6 +25,9 @@ Map Components:
 ? Moving Obstacles
 ? Half walls for shrinked character
 
+Map Creater:
+- Import map for editing
+
 Extras:
 - Choose your character
 - Blackout
